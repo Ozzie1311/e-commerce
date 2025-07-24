@@ -1,10 +1,15 @@
-import { ProductsList } from './components/ProductsList'
+import { Filters } from "./components/Filters";
+import { Header } from "./components/Header";
+import { ProductsList } from "./components/ProductsList";
+import { FilterProvider } from "./context/filters";
 
 export default function App() {
   return (
-    <main className='wrapper'>
-      <h1>Shopping cart 🛒</h1>
-      <ProductsList />
-    </main>
-  )
+    <FilterProvider>
+      <main className="wrapper">
+        <Header />
+        <ProductsList />
+      </main>
+    </FilterProvider>
+  );
 }

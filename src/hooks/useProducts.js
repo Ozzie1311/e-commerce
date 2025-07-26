@@ -18,6 +18,7 @@ export function useProducts() {
         console.log(err.message)
       }
     }
+    console.log('Ejecutando useEffect')
 
     getData()
   }, [])

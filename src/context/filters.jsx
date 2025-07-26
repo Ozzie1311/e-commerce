@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from 'react'
-import { useProducts } from '../hooks/useProducts'
+import { useCallback } from 'react'
 
 const FiltersContext = createContext()
 
@@ -24,14 +24,21 @@ export function FilterProvider({ children }) {
 export function useFilters() {
   const { filters, setFilters } = useContext(FiltersContext)
 
-  const filterProducts = (products) => {
-    return products.filter(({ price, category }) => {
-      return (
-        price >= filters.minPrice &&
-        (filters.category === 'all' || filters.category === category)
-      )
-    })
+  if (filters === undefined) {
+    throw new Error('Context must be within the scope')
   }
+
+  const filterProducts = useCallback((products) => {
+    console.log('Creando nuevamente filterPRoducts')
+    return products
+      ?.filter(({ price, category }) => {
+        return (
+          price >= filters.minPrice &&
+          (filters.category === 'all' || filters.category === category)
+        )
+      })
+      .sort((a, b) => a.price - b.price)
+  })
 
   return { filters, setFilters, filterProducts }
 }

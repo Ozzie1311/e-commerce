@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 export function useProducts() {
   const [data, setData] = useState()
+  const [loading, setLoading] = useState(true)
 
   const URL = 'https://dummyjson.com/products'
 
@@ -16,12 +17,13 @@ export function useProducts() {
         setData(products)
       } catch (err) {
         console.log(err.message)
+      } finally {
+        setLoading(false)
       }
     }
-    console.log('Ejecutando useEffect')
 
     getData()
   }, [])
 
-  return { data }
+  return { data, loading }
 }

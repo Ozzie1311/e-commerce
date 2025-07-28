@@ -1,10 +1,18 @@
-import { Filters } from "./Filters";
+import { Filters } from './Filters'
+import { Link } from 'react-router-dom'
 
 export function Header() {
   return (
     <header>
-      <h1>Shopping cart 🛒</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to='/'>Home</Link>
+          </li>
+          <li to='/about'>About</li>
+        </ul>
+      </nav>
       <Filters />
     </header>
-  );
+  )
 }

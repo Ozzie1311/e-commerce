@@ -1,33 +1,33 @@
 import { useId } from 'react'
 import { FaShoppingCart } from 'react-icons/fa'
 import { useCart } from '../context/cart'
+import '../Styles/Cart.css'
 
 export function Cart() {
   const inputCheckBoxId = useId()
-  const { cart, addToCart, removeFromCart } = useCart()
+  const { cart, dispatch, CART_ACTION_TYPES } = useCart()
 
   return (
     <>
-      <div>
-        <label htmlFor={inputCheckBoxId}>
-          <FaShoppingCart />
-          <input
-            id={inputCheckBoxId}
-            hidden
-            type='checkbox'
-          />
-        </label>
-      </div>
+      <label
+        className='cart-button'
+        htmlFor={inputCheckBoxId}
+      >
+        <FaShoppingCart />
+      </label>
+      <input
+        id={inputCheckBoxId}
+        hidden
+        type='checkbox'
+      />
 
-      <aside>
+      <aside className='cart'>
         <ul>
           {cart.map((product) => {
             return (
               <li key={product.id}>
                 <img
                   loading='lazy'
-                  width={200}
-                  height={200}
                   src={product.thumbnail}
                   alt={product.description}
                 />
@@ -36,9 +36,25 @@ export function Cart() {
                 </div>
                 <footer>
                   <small>Qty: {product.quantity}</small>
-                  <button onClick={() => addToCart(product)}>+</button>
+                  <button
+                    onClick={() =>
+                      dispatch({
+                        type: CART_ACTION_TYPES.ADD_TO_CART,
+                        payload: product,
+                      })
+                    }
+                  >
+                    +
+                  </button>
                 </footer>
-                <button onClick={() => removeFromCart(product)}>
+                <button
+                  onClick={() =>
+                    dispatch({
+                      type: CART_ACTION_TYPES.REMOVE_FROM_CART,
+                      payload: product,
+                    })
+                  }
+                >
                   Remove from cart
                 </button>
               </li>

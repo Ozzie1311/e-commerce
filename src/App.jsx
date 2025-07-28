@@ -1,35 +1,28 @@
 import { Header } from './components/Header'
-import { Products } from './components/Products'
-import { FilterProvider, useFilters } from './context/filters'
+import { useFilters } from './context/filters'
+import { Routes, Route, Link } from 'react-router-dom'
 import { CartProvider } from './context/cart'
 import { Cart } from './components/Cart'
-import { useProducts } from './hooks/useProducts'
-import { lazy, useMemo } from 'react'
 import { Suspense } from 'react'
-
-const Productss = lazy(() => import('./components/Products'))
+import { HomePage } from './components/HomePage'
 
 export default function App() {
-  const { data } = useProducts()
-  const { filterProducts } = useFilters()
-
-  const filteredData = useMemo(() => {
-    console.log('Ejecutando useMemo')
-    return filterProducts(data)
-  }, [data, filterProducts])
-
-  if (!data) {
-    return <p>Loading products...</p>
-  }
-
   return (
     <main className='wrapper'>
-      <Header />
       <CartProvider>
+        <Header />
         <Cart />
-        <Suspense fallback={<p>Loading products...</p>}>
-          <Products products={filteredData} />
-        </Suspense>
+        <Routes>
+          <Route
+            path='/'
+            index
+            element={<HomePage />}
+          />
+          <Route
+            path='*'
+            element={<h2>Eror 404, page not found!</h2>}
+          />
+        </Routes>
       </CartProvider>
     </main>
   )

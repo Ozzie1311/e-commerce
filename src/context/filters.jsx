@@ -6,7 +6,6 @@ const FiltersContext = createContext()
 export function FilterProvider({ children }) {
   const [filters, setFilters] = useState({
     category: 'all',
-    minPrice: 0,
   })
 
   return (
@@ -29,13 +28,9 @@ export function useFilters() {
   }
 
   const filterProducts = useCallback((products) => {
-    console.log('Creando nuevamente filterPRoducts')
     return products
       ?.filter(({ price, category }) => {
-        return (
-          price >= filters.minPrice &&
-          (filters.category === 'all' || filters.category === category)
-        )
+        return filters.category === 'all' || filters.category === category
       })
       .sort((a, b) => a.price - b.price)
   })
